@@ -8,7 +8,11 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
+  const [underlineStyle, setUnderlineStyle] = useState({
+    width: 0,
+    left: 0,
+    transitionDuration: "175ms",
+  });
 
   const links = [
     { label: "Home", href: "/" },
@@ -18,7 +22,7 @@ export default function Navbar() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const updateUnderlinePosition = (faster = false) => {
     const activeLinkElement = containerRef.current?.querySelector(
       `a[href="${pathname}"]`
     ) as HTMLElement;
@@ -28,8 +32,23 @@ export default function Navbar() {
       setUnderlineStyle({
         width: offsetWidth,
         left: offsetLeft,
+        transitionDuration: faster ? "1ms" : "175ms",
       });
     }
+  };
+
+  useEffect(() => {
+    updateUnderlinePosition();
+
+    const handleResize = () => {
+      updateUnderlinePosition(true);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [pathname]);
 
   return (
@@ -50,10 +69,11 @@ export default function Navbar() {
           className="flex-1 flex justify-center gap-8 relative"
         >
           <div
-            className="absolute bottom-0 h-[2px] bg-rose-500 transition-all duration-300"
+            className="absolute bottom-0 h-[2px] bg-rose-500"
             style={{
               width: `${underlineStyle.width}px`,
               left: `${underlineStyle.left}px`,
+              transition: `all ${underlineStyle.transitionDuration} ease-in-out`,
             }}
           ></div>
 
