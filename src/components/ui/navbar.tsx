@@ -4,13 +4,37 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import MGLogo from "@/assets/MGLogo.webp";
+import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [underlineStyle, setUnderlineStyle] = useState({ width: 0, left: 0 });
+
+  const links = [
+    { label: "Home", href: "/" },
+    { label: "Projects", href: "/projects" },
+    { label: "About", href: "/about" },
+  ];
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const activeLinkElement = containerRef.current?.querySelector(
+      `a[href="${pathname}"]`
+    ) as HTMLElement;
+
+    if (activeLinkElement) {
+      const { offsetWidth, offsetLeft } = activeLinkElement;
+      setUnderlineStyle({
+        width: offsetWidth,
+        left: offsetLeft,
+      });
+    }
+  }, [pathname]);
 
   return (
     <div className="absolute top-0 left-0 w-full mx-auto px-4 md:px-6 lg:px-8">
-      <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+      <header className="flex h-20 w-full items-center px-4 md:px-6 relative">
         <Link href="/" className="mr-6 hidden lg:flex">
           <Image
             src={MGLogo}
@@ -21,18 +45,26 @@ export default function Navbar() {
           />
         </Link>
 
-        <div className="flex-1 flex justify-center gap-8">
-          {[
-            { label: "Home", href: "/" },
-            { label: "Projects", href: "/projects" },
-            { label: "About", href: "/about" },
-          ].map((link) => (
+        <div
+          ref={containerRef}
+          className="flex-1 flex justify-center gap-8 relative"
+        >
+          {/* Underline */}
+          <div
+            className="absolute bottom-0 h-[2px] bg-rose-500 transition-all duration-300"
+            style={{
+              width: `${underlineStyle.width}px`,
+              left: `${underlineStyle.left}px`,
+            }}
+          ></div>
+
+          {links.map((link) => (
             <Link
               key={link.label}
               href={link.href}
               className={`text-gray-300 group inline-flex h-9 w-max items-center justify-center px-8 py-2 text-lg font-medium transition-colors ${
                 pathname === link.href
-                  ? "border-b-2 border-rose-500 dark:text-white"
+                  ? "text-rose-500"
                   : "hover:text-gray-900 dark:hover:text-gray-50 dark:hover:text-white"
               }`}
             >
@@ -40,7 +72,6 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
-        <div className="hidden lg:flex w-10"></div>
       </header>
     </div>
   );
