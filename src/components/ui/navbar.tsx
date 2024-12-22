@@ -33,7 +33,7 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <div className="absolute top-0 left-0 w-full mx-auto px-4 md:px-6 lg:px-8">
+    <div className="w-full mx-auto px-4 md:px-6 lg:px-8">
       <header className="flex h-20 w-full items-center px-4 md:px-6 relative">
         <Link href="/" className="mr-6 hidden lg:flex">
           <Image
@@ -49,7 +49,6 @@ export default function Navbar() {
           ref={containerRef}
           className="flex-1 flex justify-center gap-8 relative"
         >
-          {/* Underline */}
           <div
             className="absolute bottom-0 h-[2px] bg-rose-500 transition-all duration-300"
             style={{
