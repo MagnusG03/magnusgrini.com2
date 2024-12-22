@@ -9,7 +9,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <div className="w-full mx-auto px-4 md:px-6 lg:px-8">
+    <div className="absolute top-0 left-0 w-full mx-auto px-4 md:px-6 lg:px-8">
       <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
         <Link href="/" className="mr-6 hidden lg:flex">
           <Image
@@ -17,7 +17,7 @@ export default function Navbar() {
             alt="MG Logo"
             width={128}
             height={128}
-            className="dark:invert w-10 h-10"
+            className="dark:invert w-12 h-12"
           />
         </Link>
 
@@ -30,10 +30,10 @@ export default function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              className={`group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-md font-medium transition-colors ${
+              className={`text-gray-300 group inline-flex h-9 w-max items-center justify-center px-8 py-2 text-lg font-medium transition-colors ${
                 pathname === link.href
-                  ? "bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white"
-                  : "hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-gray-50"
+                  ? "border-b-2 border-rose-500 dark:text-white"
+                  : "hover:text-gray-900 dark:hover:text-gray-50 dark:hover:text-white"
               }`}
             >
               {link.label}
