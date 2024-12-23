@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import MGLogo from "@/assets/MGLogo.webp";
+import MGLogo from "@/assets/logos/MGLogo.webp";
 
 export default function Footer() {
   return (

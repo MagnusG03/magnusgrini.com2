@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import MGLogo from "@/assets/MGLogo.webp";
+import MGLogo from "@/assets/logos/MGLogo.webp";
 import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
@@ -22,9 +22,17 @@ export default function Navbar() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const getActiveLinkHref = () => {
+    if (pathname.startsWith("/projects")) {
+      return "/projects";
+    }
+    return pathname;
+  };
+
   const updateUnderlinePosition = (faster = false) => {
+    const activeLinkHref = getActiveLinkHref();
     const activeLinkElement = containerRef.current?.querySelector(
-      `a[href="${pathname}"]`
+      `a[href="${activeLinkHref}"]`
     ) as HTMLElement;
 
     if (activeLinkElement) {
@@ -82,7 +90,7 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               className={`text-gray-300 group inline-flex h-9 w-max items-center justify-center px-8 py-2 text-lg font-medium transition-colors ${
-                pathname === link.href
+                getActiveLinkHref() === link.href
                   ? "text-rose-500"
                   : "hover:text-gray-900 dark:hover:text-gray-50 dark:hover:text-white"
               }`}
