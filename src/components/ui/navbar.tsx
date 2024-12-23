@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import MGLogo from "@/assets/logos/MGLogo.webp";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -22,28 +22,31 @@ export default function Navbar() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const getActiveLinkHref = () => {
+  const getActiveLinkHref = useCallback(() => {
     if (pathname.startsWith("/projects")) {
       return "/projects";
     }
     return pathname;
-  };
+  }, [pathname]);
 
-  const updateUnderlinePosition = (faster = false) => {
-    const activeLinkHref = getActiveLinkHref();
-    const activeLinkElement = containerRef.current?.querySelector(
-      `a[href="${activeLinkHref}"]`
-    ) as HTMLElement;
+  const updateUnderlinePosition = useCallback(
+    (faster = false) => {
+      const activeLinkHref = getActiveLinkHref();
+      const activeLinkElement = containerRef.current?.querySelector(
+        `a[href="${activeLinkHref}"]`
+      ) as HTMLElement;
 
-    if (activeLinkElement) {
-      const { offsetWidth, offsetLeft } = activeLinkElement;
-      setUnderlineStyle({
-        width: offsetWidth,
-        left: offsetLeft,
-        transitionDuration: faster ? "1ms" : "150ms",
-      });
-    }
-  };
+      if (activeLinkElement) {
+        const { offsetWidth, offsetLeft } = activeLinkElement;
+        setUnderlineStyle({
+          width: offsetWidth,
+          left: offsetLeft,
+          transitionDuration: faster ? "1ms" : "150ms",
+        });
+      }
+    },
+    [getActiveLinkHref, containerRef]
+  );
 
   useEffect(() => {
     updateUnderlinePosition();
@@ -57,7 +60,7 @@ export default function Navbar() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [pathname]);
+  }, [pathname, updateUnderlinePosition]);
 
   return (
     <div className="w-full mx-auto px-4 md:px-6 lg:px-8">
@@ -99,7 +102,7 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
-        <div className="w-12 mr-6 hidden lg:flex"/>
+        <div className="w-12 mr-6 hidden lg:flex" />
       </header>
     </div>
   );
