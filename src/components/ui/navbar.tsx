@@ -99,6 +99,7 @@ export default function Navbar() {
             </Link>
           ))}
         </div>
+        <div className="w-12 mr-6 hidden lg:flex"/>
       </header>
     </div>
   );
