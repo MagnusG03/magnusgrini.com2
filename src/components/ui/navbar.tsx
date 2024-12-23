@@ -11,7 +11,7 @@ export default function Navbar() {
   const [underlineStyle, setUnderlineStyle] = useState({
     width: 0,
     left: 0,
-    transitionDuration: "175ms",
+    transitionDuration: "150ms",
   });
 
   const links = [
@@ -40,7 +40,7 @@ export default function Navbar() {
       setUnderlineStyle({
         width: offsetWidth,
         left: offsetLeft,
-        transitionDuration: faster ? "1ms" : "175ms",
+        transitionDuration: faster ? "1ms" : "150ms",
       });
     }
   };
