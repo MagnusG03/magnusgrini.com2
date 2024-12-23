@@ -7,9 +7,9 @@ import Link from "next/link";
 
 export default function Taskster() {
   return (
-    <div className="container min-h-[calc(100vh-80px)] mx-auto py-12">
+    <div className="container min-h-[calc(100vh-80px)] mx-auto sm:py-12">
       <h1 className="my-16 text-4xl font-bold text-center">Taskster</h1>
-      <div>
+      <div className="mx-6 sm:mx-0">
         <h3 className="text-lg">
           Taskster is a to-do list application created with Flutter. The app includes all the functionality expected from a to-do list, as well as the ability to add images to a list and archive a list. The app is available on the Google Play Store{" "}
           <Link
@@ -22,8 +22,8 @@ export default function Taskster() {
           .
         </h3>
       </div>
-      <div className="flex justify-center items-center">
-      <div className="grid grid-cols-4 gap-4 mt-8">
+      <div className="flex justify-center items-center mx-6 sm:mx-0">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-8 mb-4">
         <Image
           src={img1}
           alt="Taskster screenshot 1"

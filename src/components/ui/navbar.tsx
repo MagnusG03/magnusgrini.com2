@@ -81,7 +81,7 @@ export default function Navbar() {
           />
         </Link>
 
-        <div ref={containerRef} className="flex-1 flex justify-center gap-8 relative">
+        <div ref={containerRef} className="flex-1 flex justify-center gap-0 sm:gap-8 relative">
           <div
             className="absolute bottom-0 h-[2px] bg-rose-500"
             style={{
@@ -95,7 +95,7 @@ export default function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              className={`text-gray-300 group inline-flex h-9 w-max items-center justify-center px-8 py-2 text-lg font-medium transition-colors ${
+              className={`text-gray-300 group inline-flex h-9 w-max items-center justify-center px-8 py-2 text-sm sm:text-lg font-medium transition-colors ${
                 getActiveLinkHref() === link.href
                   ? "text-rose-500"
                   : "hover:text-gray-900 dark:hover:text-gray-50 dark:hover:text-white"

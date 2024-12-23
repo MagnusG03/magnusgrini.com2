@@ -5,9 +5,9 @@ import img2 from "@/assets/sparesti/2.png";
 
 export default function Sparesti() {
   return (
-    <div className="container min-h-[calc(100vh-80px)] mx-auto py-12">
+    <div className="container min-h-[calc(100vh-80px)] mx-auto sm:py-12">
       <h1 className="my-16 text-4xl font-bold text-center">Sparesti</h1>
-      <div className="">
+      <div className="mx-6 sm:mx-0">
         <h3 className="text-lg">
           Sparesti is a website my team and I created in April 2024 for our full-stack 
           system development course at NTNU. Sparesti is a finance application 
@@ -33,7 +33,7 @@ export default function Sparesti() {
           BankID test API no longer being available.
         </h3>
       </div>
-        <div className="flex flex-col justify-center items-center mt-8">
+        <div className="flex flex-col justify-center items-center mt-8 mx-6 sm:mx-0 mb-4">
           <Image
             src={img1}
             alt="Sparesti screenshot 1"

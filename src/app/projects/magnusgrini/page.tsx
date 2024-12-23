@@ -3,9 +3,9 @@ import Image from "next/image";
 
 export default function MagnusGrini() {
   return (
-    <div className="container min-h-[calc(100vh-80px)] mx-auto py-12">
+    <div className="container min-h-[calc(100vh-80px)] mx-auto sm:py-12">
       <h1 className="my-16 text-4xl font-bold text-center">MagnusGrini.com</h1>
-      <div className="">
+      <div className="mx-6 sm:mx-0">
         <h3 className="text-lg">
           MagnusGrini.com is a website I developed in the summer of 2023 for use as a CV, as well as to learn React. The website was built using React, TypeScript, HTML, and CSS. In 2024 I updated the website design and switched to using Next.js, Tailwind, and Shadcn.
         </h3>

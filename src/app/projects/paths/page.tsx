@@ -7,9 +7,9 @@ import img4 from "@/assets/paths/4.png";
 
 export default function Paths() {
   return (
-    <div className="container min-h-[calc(100vh-80px)] mx-auto py-12">
+    <div className="container min-h-[calc(100vh-80px)] mx-auto sm:py-12">
       <h1 className="my-16 text-4xl font-bold text-center">Paths</h1>
-      <div className="">
+      <div className="mx-6 sm:mx-0">
         <h3 className="text-lg">
           Paths is a decision-based interactive storytelling game engine
           developed by a peer and I for a school project. The program was
@@ -25,7 +25,7 @@ export default function Paths() {
           Below are a few screenshots from the program.
         </h3>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mx-6 sm:mx-0">
         <div className="grid grid-cols-1 gap-4 mt-8">
           <Image
             src={img1}

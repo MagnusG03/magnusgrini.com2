@@ -7,9 +7,9 @@ import Link from "next/link";
 
 export default function Weighttracker() {
   return (
-    <div className="container min-h-[calc(100vh-80px)] mx-auto py-12">
+    <div className="container min-h-[calc(100vh-80px)] mx-auto sm:py-12">
       <h1 className="my-16 text-4xl font-bold text-center">WeightTracker</h1>
-      <div className="">
+      <div className="mx-6 sm:mx-0">
         <h3 className="text-lg">
           Weight Tracker is an application I created using React Native in
           order to learn the framework. This is my second project made in
@@ -27,8 +27,8 @@ export default function Weighttracker() {
           Below are a few screenshots from the program.
         </h3>
       </div>
-      <div className="flex justify-center items-center">
-      <div className="grid grid-cols-4 gap-4 mt-8">
+      <div className="flex justify-center items-center mx-6 sm:mx-0">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mt-8 mb-4">
         <Image
           src={img1}
           alt="Weight Tracker screenshot 1"
