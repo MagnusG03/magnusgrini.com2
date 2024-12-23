@@ -15,8 +15,8 @@ export default function Projects() {
   ]
 
   return (
-    <div className="container min-h-screen mx-auto py-12">
-      <h1 className="mb-8 text-4xl font-bold">Projects</h1>
+    <div className="container min-h-[calc(100vh-80px)] mx-auto py-12">
+      <h1 className="my-16 text-4xl font-bold text-center">Projects</h1>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project, index) => (
           <PortfolioElement
