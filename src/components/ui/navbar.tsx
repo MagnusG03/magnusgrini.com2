@@ -8,10 +8,12 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
   const [underlineStyle, setUnderlineStyle] = useState({
     width: 0,
     left: 0,
-    transitionDuration: "150ms",
+    transitionDuration: "0ms",
   });
 
   const links = [
@@ -30,7 +32,7 @@ export default function Navbar() {
   }, [pathname]);
 
   const updateUnderlinePosition = useCallback(
-    (faster = false) => {
+    (duration: string) => {
       const activeLinkHref = getActiveLinkHref();
       const activeLinkElement = containerRef.current?.querySelector(
         `a[href="${activeLinkHref}"]`
@@ -41,26 +43,30 @@ export default function Navbar() {
         setUnderlineStyle({
           width: offsetWidth,
           left: offsetLeft,
-          transitionDuration: faster ? "1ms" : "150ms",
+          transitionDuration: duration,
         });
       }
     },
-    [getActiveLinkHref, containerRef]
+    [getActiveLinkHref]
   );
 
   useEffect(() => {
-    updateUnderlinePosition();
+    if (isInitialLoad) {
+      updateUnderlinePosition("0ms");
+      setIsInitialLoad(false);
+    } else {
+      updateUnderlinePosition("150ms");
+    }
+  }, [pathname, isInitialLoad, updateUnderlinePosition]);
 
+  useEffect(() => {
     const handleResize = () => {
-      updateUnderlinePosition(true);
+      updateUnderlinePosition("0ms");
     };
 
     window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [pathname, updateUnderlinePosition]);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [updateUnderlinePosition]);
 
   return (
     <div className="w-full mx-auto px-4 md:px-6 lg:px-8">
@@ -75,10 +81,7 @@ export default function Navbar() {
           />
         </Link>
 
-        <div
-          ref={containerRef}
-          className="flex-1 flex justify-center gap-8 relative"
-        >
+        <div ref={containerRef} className="flex-1 flex justify-center gap-8 relative">
           <div
             className="absolute bottom-0 h-[2px] bg-rose-500"
             style={{
