@@ -10,6 +10,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
+  const [previousPathname, setPreviousPathname] = useState(pathname);
+
   const [underlineStyle, setUnderlineStyle] = useState({
     width: 0,
     left: 0,
@@ -45,6 +47,12 @@ export default function Navbar() {
           left: offsetLeft,
           transitionDuration: duration,
         });
+      } else {
+        setUnderlineStyle({
+          width: 0,
+          left: 0,
+          transitionDuration: "0ms",
+        });
       }
     },
     [getActiveLinkHref]
@@ -54,9 +62,12 @@ export default function Navbar() {
     if (isInitialLoad) {
       updateUnderlinePosition("0ms");
       setIsInitialLoad(false);
+    } else if (pathname.startsWith("/netscape") || previousPathname.startsWith("/netscape")) {
+      updateUnderlinePosition("0ms");
     } else {
       updateUnderlinePosition("150ms");
     }
+    setPreviousPathname(pathname);
   }, [pathname, isInitialLoad, updateUnderlinePosition]);
 
   useEffect(() => {
