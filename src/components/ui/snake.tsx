@@ -82,30 +82,29 @@ export default function snake() {
                     break
             }
         }
-        const pauseClick = (event: MouseEvent) => {
-            if(event.button === 0 && isAliveRef.current) {
-                setIsRunning(prevState => !prevState);
-                setIsFirstLoad(false)
-            } else if(event.button === 0 && !isAliveRef.current) {
-                setDirection("right")
-                setHeadLocation({ x: 11, y: 10})
-                setTailLocation({ x: 10, y: 10})
-                setSnakeLocations([{ x: 11, y: 10}, { x: 10, y: 10}])
-                setFruitLocation({x: Math.floor(Math.random() * (canvasSize - 1) + 1), y: Math.floor(Math.random() * (canvasSize - 1) + 1)})
-                setIsAlive(true)
-                setIsRunning(prevState => !prevState);
-                setIsFirstLoad(false)
-            }
-        }
 
         window.addEventListener("keydown", keyPress)
-        window.addEventListener("mousedown", pauseClick)
 
         return() => {
             window.removeEventListener("keydown", keyPress)
-            window.removeEventListener("mousedown", pauseClick)
         }
     }, [])
+
+    const pauseClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        if(event.button === 0 && isAliveRef.current) {
+            setIsRunning(prevState => !prevState);
+            setIsFirstLoad(false)
+        } else if(event.button === 0 && !isAliveRef.current) {
+            setDirection("right")
+            setHeadLocation({ x: 11, y: 10})
+            setTailLocation({ x: 10, y: 10})
+            setSnakeLocations([{ x: 11, y: 10}, { x: 10, y: 10}])
+            setFruitLocation({x: Math.floor(Math.random() * (canvasSize - 1) + 1), y: Math.floor(Math.random() * (canvasSize - 1) + 1)})
+            setIsAlive(true)
+            setIsRunning(prevState => !prevState);
+            setIsFirstLoad(false)
+        }
+    }
 
     useEffect(() => {
         if(!isRunning) return;
@@ -158,10 +157,10 @@ export default function snake() {
         }, 50)
 
         return () => clearTimeout(timer)
-    }, [isRunning, headLocation, direction])
+    }, [isRunning, headLocation])
 
   return (
-    <div className="relative">
+    <div className="relative" style={{ width: `${canvasSize * 24}px`, height: `${canvasSize * 24}px` }} onMouseDown={pauseClick}>
         <div 
         className={`bg-black absolute inset-0 z-50 opacity-50 ${
         isRunning && isAlive ? 'hidden' : ''
