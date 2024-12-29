@@ -27,26 +27,58 @@ export default function snake() {
 
     const [fruitLocation, setFruitLocation] = useState<Position>({x: 15, y: 15})
 
+    const [directionQueue, setDirectionQueue] = useState<Direction[]>(["right"])
+
     const isAliveRef = useRef(isAlive);
+    const directionRef = useRef(direction);
+    const directionQueueRef = useRef(directionQueue)
+    const nextDirection = useRef(directionQueue[0])
 
     useEffect(() => {
         isAliveRef.current = isAlive;
-    }, [isAlive]);
+        directionRef.current = direction;
+        directionQueueRef.current = directionQueue
+        nextDirection.current = directionQueue[0]
+    }, [isAlive, direction, directionQueue]);
 
     useEffect(() => {
         const keyPress = (event: KeyboardEvent) => {
             switch (event.key) {
                 case "ArrowUp":
-                    setDirection("up")
+                case "w":
+                case "W":
+                    if(nextDirection.current != "down" && directionQueueRef.current.length > 0 && directionQueueRef.current[0] != "up") {
+                        setDirectionQueue([directionQueueRef.current[0], "up"])
+                    } else if(nextDirection.current != "down" && directionQueueRef.current.length === 0) {
+                        setDirectionQueue(["up"])
+                    }
                     break
                 case "ArrowDown":
-                    setDirection("down")
+                case "s":
+                case "S":
+                    if(nextDirection.current != "up" && directionQueueRef.current.length > 0 && directionQueueRef.current[0] != "down") {
+                        setDirectionQueue([directionQueueRef.current[0], "down"])
+                    } else if(nextDirection.current != "up" && directionQueueRef.current.length === 0) {
+                        setDirectionQueue(["down"])
+                    }
                     break
                 case "ArrowLeft":
-                    setDirection("left")
+                case "a":
+                case "A":
+                    if(nextDirection.current != "right" && directionQueueRef.current.length > 0 && directionQueueRef.current[0] != "left") {
+                        setDirectionQueue([directionQueueRef.current[0], "left"])
+                    } else if(nextDirection.current != "right" && directionQueueRef.current.length === 0) {
+                        setDirectionQueue(["left"])
+                    }
                     break
                 case "ArrowRight":
-                    setDirection("right")
+                case "d":
+                case "D":
+                    if(nextDirection.current != "left" && directionQueueRef.current.length > 0 && directionQueueRef.current[0] != "right") {
+                        setDirectionQueue([directionQueueRef.current[0], "right"])
+                    } else if(nextDirection.current != "left" && directionQueueRef.current.length === 0) {
+                        setDirectionQueue(["right"])
+                    }
                     break
             }
         }
@@ -80,18 +112,30 @@ export default function snake() {
 
         const timer = setTimeout(() => {
             let newHeadLocation: Position;
-            switch (direction) {
+            switch (nextDirection.current) {
                 case "up":
                     newHeadLocation = {x: headLocation.x, y: headLocation.y - 1}
+                    if(directionQueueRef.current.length > 1) {
+                        setDirectionQueue(directionQueueRef.current.slice(1))
+                    }
                     break
                 case "down":
                     newHeadLocation = {x: headLocation.x, y: headLocation.y + 1}
+                    if(directionQueueRef.current.length > 1) {
+                        setDirectionQueue(directionQueueRef.current.slice(1))
+                    }
                     break
                 case "left":
                     newHeadLocation = {x: headLocation.x - 1, y: headLocation.y}
+                    if(directionQueueRef.current.length > 1) {
+                        setDirectionQueue(directionQueueRef.current.slice(1))
+                    }
                     break
                 case "right":
                     newHeadLocation = {x: headLocation.x + 1, y: headLocation.y}
+                    if(directionQueueRef.current.length > 1) {
+                        setDirectionQueue(directionQueueRef.current.slice(1))
+                    }
                     break
                 default:
                     throw new Error("Invalid direction");
@@ -100,16 +144,18 @@ export default function snake() {
             if(snakeLocations.slice(1).some(pos => pos.x === newHeadLocation.x && pos.y === newHeadLocation.y)) {
                 setIsRunning(false)
                 setIsAlive(false)
+                setDirectionQueue(["right"])
             } else if (newHeadLocation.x >= canvasSize || newHeadLocation.y >= canvasSize || newHeadLocation.x < 0 || newHeadLocation.y < 0) {
                 setIsRunning(false)
                 setIsAlive(false)
+                setDirectionQueue(["right"])
             } else if(newHeadLocation.x === fruitLocation.x && newHeadLocation.y === fruitLocation.y) {
                 setSnakeLocations((previousLocations) => [newHeadLocation, ...previousLocations])
                 setFruitLocation({x: Math.floor(Math.random() * (canvasSize - 1) + 1), y: Math.floor(Math.random() * (canvasSize - 1) + 1)})
             } else {
                 setSnakeLocations((previousLocations) => [newHeadLocation, ...previousLocations.slice(0, -1)])
             }
-        }, 100)
+        }, 50)
 
         return () => clearTimeout(timer)
     }, [isRunning, headLocation, direction])
@@ -121,13 +167,19 @@ export default function snake() {
         isRunning && isAlive ? 'hidden' : ''
         }`}
         style={{ width: `${canvasSize * 24}px` }}>
-            <h1 className={`text-lg ${
+        </div>
+        <div 
+        className={`absolute inset-0 z-50 flex items-center justify-center ${
+        isRunning && isAlive ? 'hidden' : ''
+        }`}
+        style={{ width: `${canvasSize * 24}px` }}>
+            <h1 className={`text-6xl text-white text-center ${
             !isRunning && isAlive && isFirstLoad ? '' : 'hidden'
             }`}>Start</h1>
-            <h1 className={`text-lg ${
+            <h1 className={`text-6xl text-white text-center ${
             !isRunning && isAlive && !isFirstLoad ? '' : 'hidden'
             }`}>Unpause</h1>
-            <h1 className={`text-lg ${
+            <h1 className={`text-5xl text-white text-center ${
             !isRunning && !isAlive && !isFirstLoad ? '' : 'hidden'
             }`}>Game Over, click to restart</h1>
         </div>
