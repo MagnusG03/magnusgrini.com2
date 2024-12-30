@@ -68,7 +68,7 @@ export default function Navbar() {
       updateUnderlinePosition("150ms");
     }
     setPreviousPathname(pathname);
-  }, [pathname, isInitialLoad, updateUnderlinePosition]);
+  }, [pathname, isInitialLoad, updateUnderlinePosition, previousPathname]);
 
   useEffect(() => {
     const handleResize = () => {

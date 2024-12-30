@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 
-export default function snake() {
-    const [length, setLength] = useState(1);
-
+export default function Snake() {
     const canvasSize = 20;
 
     type Position = {
@@ -157,7 +155,7 @@ export default function snake() {
         }, 50)
 
         return () => clearTimeout(timer)
-    }, [isRunning, headLocation])
+    }, [isRunning, headLocation, fruitLocation.x, fruitLocation.y, snakeLocations])
 
   return (
     <div className="relative" style={{ width: `${canvasSize * 24}px`, height: `${canvasSize * 24}px` }} onMouseDown={pauseClick}>
