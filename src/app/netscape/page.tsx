@@ -6,7 +6,6 @@ import Triceratops from "@/components/ui/triceratops";
 export default function Netscape() {
   // ---------- Low-frequency React state
   const [isMoving, setIsMoving] = useState(false);
-  const [facingRight, setFacingRight] = useState(true); // still used for UI/props
   const [spawnReady, setSpawnReady] = useState(false);
 
   // ---------- Mirrors/refs for hot path
@@ -92,11 +91,9 @@ export default function Netscape() {
 
       if (k === "a" || k === "arrowleft") {
         facingRightRef.current = false;
-        setFacingRight(false);
       }
       if (k === "d" || k === "arrowright") {
         facingRightRef.current = true;
-        setFacingRight(true);
       }
     };
     const up = (e: KeyboardEvent) => {
