@@ -212,9 +212,11 @@ export default function Netscape() {
         }}
       >
         <Triceratops
-          animation={isMoving ? "triceratops-run" : "triceratops-idle"}
-          characterSheet={isMoving ? "triceratopsRunSheet.webp" : "triceratopsSheet.webp"}
-          frames={isMoving ? 3 : 4}
+          moving={isMoving}
+          idleSheet="triceratopsSheet.webp"
+          runSheet="triceratopsRunSheet.webp"
+          idleFrames={4}
+          runFrames={3}
           scale={2}
         />
       </div>
