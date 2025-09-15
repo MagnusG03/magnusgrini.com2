@@ -128,7 +128,7 @@ export default function Netscape() {
 
     const frame = (now: number) => {
       if (lastTime == null) lastTime = now;
-      let frameDt = (now - lastTime) / 1000; // seconds since last RAF
+      const frameDt = (now - lastTime) / 1000; // seconds since last RAF
       lastTime = now;
 
       // Accumulate time and run fixed physics steps
@@ -160,7 +160,7 @@ export default function Netscape() {
 
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [facingRight]);
+  }, [facingRight, FIXED_DT]);
 
   return (
     <div ref={containerRef} className="relative min-h-[calc(100vh-80px)] overflow-hidden">
