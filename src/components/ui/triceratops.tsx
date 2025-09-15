@@ -1,56 +1,22 @@
-type Props = {
-  scale?: number;
-  characterSheet?: string;
-  animation?: string;
-  duration?: string;
-  timing?: string;
-  iterationCount?: string;
-  fw?: number;
-  fh?: number;
-  frames?: number;
-  invert?: boolean; // flip horizontally
-};
-
-export default function Triceratops({
-  scale = 2,
-  characterSheet = "triceratopsSheet.webp",
-  animation = "triceratops-idle",
-  duration = "6500ms",
-  timing = "steps(1,end)",
-  iterationCount = "infinite",
-  invert = false,
-  fw = 52,
-  fh = 65,
-  frames = 4,
-}: Props) {
-  const scaledW = fw * scale;
+export default function Triceratops({ scale = 2 }: { scale?: number }) {
+  const fw = 52;
+  const fh = 65;
+  const frames = 4;
 
   return (
-    <div style={{ width: scaledW, height: fh * scale }}>
+    <div style={{ width: fw * scale, height: fh * scale }}>
       <div
         className="
-          bg-no-repeat bg-left
+          bg-no-repeat bg-left animate-triceratops-idle
           [image-rendering:pixelated] [image-rendering:crisp-edges]
         "
         style={{
           width: fw,
           height: fh,
-          backgroundImage: `url('/netscape/${characterSheet}')`,
+          backgroundImage: "url('/netscape/triceratopsSheet.webp')",
           backgroundSize: `${fw * frames}px ${fh}px`,
-
-          // ✅ Flip fix: when inverted, mirror and shift back by the scaled width
-          transform: invert
-            ? `translateX(${scaledW}px) scale(${-scale}, ${scale})`
-            : `scale(${scale})`,
+          transform: `scale(${scale})`,
           transformOrigin: "top left",
-
-          // animation (Option A)
-          animationName: animation,
-          animationDuration: duration,
-          animationTimingFunction: timing,
-          animationIterationCount: iterationCount,
-
-          willChange: "background-position, transform",
         }}
       />
     </div>
