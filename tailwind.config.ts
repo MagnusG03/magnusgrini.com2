@@ -80,11 +80,22 @@ export default {
 					"93.847%, 95.385%": { backgroundPosition: "-156px 0" },  // F4
 					"95.386%, 100%": { backgroundPosition: "-52px 0" },   // F2 (final hold)
 				},
+				"triceratops-run": {
+					"0%": { backgroundPosition: "0 0" },         // F1
+					"25%": { backgroundPosition: "-52px 0" },     // F2
+					"50%": { backgroundPosition: "-104px 0" },    // F3
+					"75%": { backgroundPosition: "-52px 0" },     // F2
+				}
 			},
 			animation: {
 				"triceratops-idle": "triceratops-idle 6500ms steps(1,end) infinite",
+				"triceratops-run": "triceratops-run 400ms steps(1,end) infinite",
 			},
-		}
+		},
 	},
+	safelist: [
+		'animate-triceratops-idle',
+		'animate-triceratops-run',
+	],
 	plugins: [require("tailwindcss-animate"), require("tailwind-scrollbar")],
 } satisfies Config;
