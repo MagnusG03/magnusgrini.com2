@@ -4,20 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import Triceratops from "@/components/ui/triceratops";
 
 export default function Netscape() {
-  // ---------- State that can re-render (low frequency)
+  // ---------- Low-frequency React state
   const [isMoving, setIsMoving] = useState(false);
-  const [facingRight, setFacingRight] = useState(true);
+  const [facingRight, setFacingRight] = useState(true); // still used for UI/props
   const [spawnReady, setSpawnReady] = useState(false);
 
+  // ---------- Mirrors/refs for hot path
+  const facingRightRef = useRef(true); // use this in the loop to avoid restarts
   const didSpawn = useRef(false);
-
-  // ---------- Refs (high frequency, no re-render)
   const keys = useRef<Set<string>>(new Set());
 
-  // Physics state (authoritative)
+  // Physics (authoritative)
   const phys = useRef({ x: 200, y: 200, vx: 0, vy: 0 });
 
-  // Render state (for interpolation)
+  // Render/interp
   const renderPos = useRef({ x: 200, y: 200 });
 
   // Bounds + DOM
@@ -25,12 +25,20 @@ export default function Netscape() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dinoRef = useRef<HTMLDivElement | null>(null);
 
-  // ---------- Config (tune these freely)
-  const FIXED_DT = 1 / 60;             // physics tick (seconds) — independent of frame rate
-  const MAX_STEPS = 10;                 // safety to avoid spiral of death on tab switch
-  const WALK_SPEED = 220;               // px/sec at full input (physics space)
+  // Config
+  const FIXED_DT = 1 / 60;            // fixed physics tick
+  const MAX_STEPS = 10;               // cap to avoid spiral
+  const WALK_SPEED = 220;             // px/s
 
-  // ---------- Measure container for clamping
+  // ---------- A) Preload both sprite sheets to avoid swap flashes
+  useEffect(() => {
+    ["/netscape/triceratopsRunSheet.webp", "/netscape/triceratopsSheet.webp"].forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  // ---------- Measure container for clamping (debounced)
   useEffect(() => {
     const updateBounds = () => {
       const el = containerRef.current;
@@ -39,43 +47,62 @@ export default function Netscape() {
       bounds.current.h = el.clientHeight;
 
       if (!didSpawn.current) {
+        // Center spawn once
         phys.current.x = bounds.current.w / 2 - bounds.current.spriteW / 2;
         phys.current.y = bounds.current.h / 2 - bounds.current.spriteH / 2;
         renderPos.current.x = phys.current.x;
         renderPos.current.y = phys.current.y;
 
-        // position immediately
+        // Initial placement (C: translate3d)
         if (dinoRef.current) {
           dinoRef.current.style.transform =
-            `translate(${renderPos.current.x}px, ${renderPos.current.y}px)`;
+            `translate3d(${renderPos.current.x}px, ${renderPos.current.y}px, 0)` +
+            (facingRightRef.current ? " scaleX(-1)" : "");
         }
 
         didSpawn.current = true;
         setSpawnReady(true);
-      };
-    }
+      }
+    };
+
+    let resizeRaf: number | null = null;
+    const updateBoundsDebounced = () => {
+      if (resizeRaf != null) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(updateBounds);
+    };
+
     updateBounds();
-    const ro = new ResizeObserver(updateBounds);
+    const ro = new ResizeObserver(updateBoundsDebounced);
     if (containerRef.current) ro.observe(containerRef.current);
-    window.addEventListener("resize", updateBounds);
+    window.addEventListener("resize", updateBoundsDebounced);
+
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", updateBounds);
+      window.removeEventListener("resize", updateBoundsDebounced);
+      if (resizeRaf != null) cancelAnimationFrame(resizeRaf);
     };
   }, []);
 
-  // Input handling
+  // ---------- Input handling (B: update ref to avoid loop restarts)
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       const k = e.key.toLowerCase();
       if (["arrowup", "arrowdown", "arrowleft", "arrowright", " "].includes(k)) e.preventDefault();
       keys.current.add(k);
-      if (k === "a" || k === "arrowleft") setFacingRight(false);
-      if (k === "d" || k === "arrowright") setFacingRight(true);
+
+      if (k === "a" || k === "arrowleft") {
+        facingRightRef.current = false;
+        setFacingRight(false);
+      }
+      if (k === "d" || k === "arrowright") {
+        facingRightRef.current = true;
+        setFacingRight(true);
+      }
     };
     const up = (e: KeyboardEvent) => {
       keys.current.delete(e.key.toLowerCase());
     };
+
     window.addEventListener("keydown", down);
     window.addEventListener("keyup", up);
     return () => {
@@ -84,13 +111,25 @@ export default function Netscape() {
     };
   }, []);
 
-  // GameLoop
+  // ---------- Game Loop (fixed update + interpolated render)
   useEffect(() => {
-    let accum = 0;              // how much un-simulated time we have
+    let accum = 0;
     let lastTime: number | null = null;
     let raf = 0;
 
+    // E) Skip redundant DOM writes
+    const lastDraw = { x: NaN, y: NaN, flip: false };
+    const applyTransform = (x: number, y: number, flipRight: boolean) => {
+      if (lastDraw.x === x && lastDraw.y === y && lastDraw.flip === flipRight) return;
+      lastDraw.x = x; lastDraw.y = y; lastDraw.flip = flipRight;
+      if (dinoRef.current) {
+        dinoRef.current.style.transform =
+          `translate3d(${x}px, ${y}px, 0)` + (flipRight ? " scaleX(-1)" : "");
+      }
+    };
+
     const physicsStep = (dt: number) => {
+      // Input → direction
       let dx = 0, dy = 0;
       const k = keys.current;
       if (k.has("w") || k.has("arrowup")) dy -= 1;
@@ -105,8 +144,7 @@ export default function Netscape() {
       }
 
       const p = phys.current;
-
-      // 🔥 Immediate velocity assignment (no accel/friction smoothing)
+      // immediate velocity (arcade feel)
       p.vx = dx * WALK_SPEED;
       p.vy = dy * WALK_SPEED;
 
@@ -114,7 +152,7 @@ export default function Netscape() {
       p.x += p.vx * dt;
       p.y += p.vy * dt;
 
-      // clamp
+      // clamp to container
       const { w, h, spriteW, spriteH } = bounds.current;
       if (w && h) {
         const maxX = Math.max(0, w - spriteW);
@@ -123,16 +161,19 @@ export default function Netscape() {
         p.y = Math.min(Math.max(0, p.y), maxY);
       }
 
+      // update moving state only when it flips
       setIsMoving(prev => (prev !== moving ? moving : prev));
     };
 
     const frame = (now: number) => {
       if (lastTime == null) lastTime = now;
-      const frameDt = (now - lastTime) / 1000; // seconds since last RAF
+      const frameDt = (now - lastTime) / 1000;
       lastTime = now;
 
-      // Accumulate time and run fixed physics steps
-      accum += frameDt;
+      // Clamp accumulator to avoid huge catch-ups (stops flicker after tab switch)
+      accum = Math.min(accum + frameDt, 0.25);
+
+      // Fixed steps
       let steps = 0;
       while (accum >= FIXED_DT && steps < MAX_STEPS) {
         physicsStep(FIXED_DT);
@@ -140,44 +181,46 @@ export default function Netscape() {
         steps++;
       }
 
-      // Interpolate for smooth rendering
-      const alpha = Math.max(0, Math.min(1, accum / FIXED_DT)); // [0..1]
+      // Interpolate & draw (C: translate3d)
+      const alpha = Math.max(0, Math.min(1, accum / FIXED_DT));
       const p = phys.current;
       const interpX = p.x + p.vx * alpha * FIXED_DT;
       const interpY = p.y + p.vy * alpha * FIXED_DT;
+
       renderPos.current.x = interpX;
       renderPos.current.y = interpY;
 
-      // Apply transform
-      if (dinoRef.current) {
-        const translate = `translate(${interpX}px, ${interpY}px)`;
-        const flip = facingRight ? " scaleX(-1)" : "";
-        dinoRef.current.style.transform = translate + flip;
-      }
+      // B/E: use ref for facing, skip redundant transform writes
+      applyTransform(interpX, interpY, facingRightRef.current);
 
       raf = requestAnimationFrame(frame);
     };
 
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
-  }, [facingRight, FIXED_DT]);
+  }, [FIXED_DT]);
 
   return (
     <div ref={containerRef} className="relative min-h-[calc(100vh-80px)] overflow-hidden">
-      {spawnReady && (
-        <div
-          ref={dinoRef}
-          className="absolute top-0 left-0 will-change-transform pointer-events-none"
-          style={{ transform: `translate(${renderPos.current.x}px, ${renderPos.current.y}px)` }}
-        >
-          <Triceratops
-            animation={isMoving ? "triceratops-run" : "triceratops-idle"}
-            characterSheet={isMoving ? "triceratopsRunSheet.webp" : "triceratopsSheet.webp"}
-            frames={isMoving ? 3 : 4}
-            scale={2}
-          />
-        </div>
-      )}
+      {/* D) Always mounted; fade in once centered to prevent unmount/remount flashes */}
+      <div
+        ref={dinoRef}
+        className="absolute top-0 left-0 will-change-transform pointer-events-none transition-opacity duration-150"
+        style={{
+          transform: `translate3d(${renderPos.current.x}px, ${renderPos.current.y}px, 0)`,
+          opacity: spawnReady ? 1 : 0,
+          contain: "layout paint",            // perf hint
+          backfaceVisibility: "hidden",       // compositing stability
+          transformStyle: "preserve-3d",      // compositing stability
+        }}
+      >
+        <Triceratops
+          animation={isMoving ? "triceratops-run" : "triceratops-idle"}
+          characterSheet={isMoving ? "triceratopsRunSheet.webp" : "triceratopsSheet.webp"}
+          frames={isMoving ? 3 : 4}
+          scale={2}
+        />
+      </div>
     </div>
   );
 }
