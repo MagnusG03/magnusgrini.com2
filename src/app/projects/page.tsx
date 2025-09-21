@@ -6,11 +6,13 @@ import PathsImage from "@/assets/paths/paths.png";
 import SparestiImage from "@/assets/sparesti/sparesti.png";
 import WeightTrackerImage from "@/assets/weighttracker/weighttracker.png";
 import MagnusGriniImage from "@/assets/magnusgrini.com/magnusgrini.png";
+import TradingAIImage from "@/assets/tradingai/LSTMandPPO.webp";
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Projects() {
   const projects = [
+    { title: 'TradingAI', imageSrc: TradingAIImage, projectUrl: '/projects/tradingai' },
     { title: 'Taskster', imageSrc: TasksterImage, projectUrl: '/projects/taskster' },
     { title: 'Sparesti', imageSrc: SparestiImage, projectUrl: '/projects/sparesti' },
     { title: 'Paths', imageSrc: PathsImage, projectUrl: '/projects/paths' },
