@@ -23,7 +23,7 @@ export default function Weighttracker() {
             className="text-blue-500"
           >
             Click here for the app in the Google Play Store.
-          </Link>{" "}
+          </Link>{" "} (Unfortunately this app is no longer available due to infrequent updates.)
           Below are a few screenshots from the program.
         </h3>
       </div>

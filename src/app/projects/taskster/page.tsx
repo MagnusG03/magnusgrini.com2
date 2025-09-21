@@ -19,7 +19,7 @@ export default function Taskster() {
           >
             here
           </Link>
-          .
+          . (Unfortunately this app is no longer available due to infrequent updates.)
         </h3>
       </div>
       <div className="flex justify-center items-center mx-6 sm:mx-0">
