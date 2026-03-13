@@ -10,6 +10,8 @@ customHeaders:
 
   - pattern: "/netscape/Build/*.data.br"
     headers:
+      - key: "Content-Type"
+        value: "application/octet-stream"
       - key: "Content-Encoding"
         value: "br"
       - key: "Cache-Control"
@@ -17,6 +19,8 @@ customHeaders:
 
   - pattern: "/netscape/Build/*.js.br"
     headers:
+      - key: "Content-Type"
+        value: "application/javascript"
       - key: "Content-Encoding"
         value: "br"
       - key: "Cache-Control"
@@ -24,6 +28,8 @@ customHeaders:
 
   - pattern: "/netscape/Build/*.symbols.json.br"
     headers:
+      - key: "Content-Type"
+        value: "application/octet-stream"
       - key: "Content-Encoding"
         value: "br"
       - key: "Cache-Control"
