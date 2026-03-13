@@ -1,6 +1,12 @@
 export default function Netscape() {
   return (
-    <div className="relative min-h-[calc(100vh-80px)] overflow-hidden">
-    </div>
+    <main style={{ width: "100%", height: "100vh", margin: 0 }}>
+      <iframe
+        src="/netscape/index.html"
+        title="Unity Game"
+        style={{ width: "100%", height: "100%", border: "none" }}
+        allow="fullscreen"
+      />
+    </main>
   );
 }
