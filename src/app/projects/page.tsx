@@ -8,8 +8,14 @@ import MagnusGriniImage from "@/assets/magnusgrini.com/magnusgrini.webp";
 import TradingAIImage from "@/assets/tradingai/LSTMandPPO.webp";
 import TrainingGameImage from "@/assets/traininggame/applegame.webp";
 import DinosaurGameImage from "@/assets/dinosaurgame/dinosaurgame.webp";
+import VehicleRoutingProblem from "@/assets/vehicleroutingproblem/nurse_route_network.webp";
 
 const projects = [
+  {
+    title: "Vehicle Routing Problem",
+    imageSrc: VehicleRoutingProblem,
+    projectUrl: "/projects/vehicleroutingproblem",
+  },
   {
     title: "Dinosaur Game",
     imageSrc: DinosaurGameImage,
