@@ -8,11 +8,13 @@ import WeightTrackerImage from "@/assets/weighttracker/weighttracker.png";
 import MagnusGriniImage from "@/assets/magnusgrini.com/magnusgrini.png";
 import TradingAIImage from "@/assets/tradingai/LSTMandPPO.webp";
 import TrainingGameImage from "@/assets/traininggame/applegame.webp";
+import DinosaurGameImage from "@/assets/dinosaurgame/dinosaurgame.png";
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function Projects() {
   const projects = [
+    { title: 'Dinosaur Game', imageSrc: DinosaurGameImage, projectUrl: '/projects/dinosaurgame' },
     { title: 'TrainingGame', imageSrc: TrainingGameImage, projectUrl: '/projects/traininggame' },
     { title: 'TradingAI', imageSrc: TradingAIImage, projectUrl: '/projects/tradingai' },
     { title: 'Taskster', imageSrc: TasksterImage, projectUrl: '/projects/taskster' },

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function Netscape() {
+export default function DinosaurGame() {
   const keycapClassName =
     "mx-0.5 inline-flex min-w-8 items-center justify-center rounded-md border border-zinc-400 bg-gradient-to-b from-white to-zinc-200 px-2 py-1 align-middle text-sm font-bold tracking-wide text-zinc-900 shadow-[0_1px_0_rgba(255,255,255,0.9)_inset,0_2px_0_rgba(24,24,27,0.18)]";
 
