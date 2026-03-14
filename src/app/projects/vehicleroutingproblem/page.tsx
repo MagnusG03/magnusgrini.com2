@@ -17,7 +17,7 @@ export default function VehicleRoutingProblem() {
           The algorithm performed very well on the provided dataset, beating the benchmark on multiple of the test instances. The algorithm is also quite fast, averaging about 2 minutes per run.
         </h3>
         <h3 className="text-lg mt-8">
-          This project was created as part of the course "Bio-inspired AI" at the Norwegian University of Science and Technology (NTNU) in winter 2026, where it received full marks.
+          This project was created as part of the course &quot;Bio-inspired AI&quot; at the Norwegian University of Science and Technology (NTNU) in winter 2026, where it received full marks.
         </h3>
         <h3 className="text-lg mt-8">
             If you want to learn more about the algorithm, you can find the report for the project {" "}
