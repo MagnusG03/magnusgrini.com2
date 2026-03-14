@@ -1,4 +1,4 @@
-import img1 from "@/assets/magnusgrini.com/oldmagnusgrini.png";
+import img1 from "@/assets/magnusgrini.com/oldmagnusgrini.webp";
 import Image from "next/image";
 
 export default function MagnusGrini() {

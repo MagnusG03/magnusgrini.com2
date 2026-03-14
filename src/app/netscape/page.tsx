@@ -24,7 +24,7 @@ export default function Netscape() {
           <kbd className={keycapClassName}>Shift</kbd> to sprint.
         </h3>
         <h3 className="text-lg mt-8">
-          Dinosaur game is a simple 2D platformer game I developed in the summer of 2025 using the Unity experience I gained from my bachelor's project. All of the systems are set up to allow for easy creation of more levels, however I've only made one so far. All of the assets in the game are hand drawn by me in Aseprite. {" "}
+          Dinosaur game is a simple 2D platformer game I developed in the summer of 2025 using the Unity experience I gained from my bachelor&apos;s project. All of the systems are set up to allow for easy creation of more levels, however I&apos;ve only made one so far. All of the assets in the game are hand drawn by me in Aseprite. {" "}
           <Link
             href="https://github.com/MagnusG03/Netscape"
             target="_blank"

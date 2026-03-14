@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import img1 from "@/assets/sparesti/1.png";
+import img1 from "@/assets/sparesti/1.webp";
 import img2 from "@/assets/sparesti/2.png";
 
 export default function Sparesti() {
