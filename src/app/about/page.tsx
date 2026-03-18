@@ -8,11 +8,6 @@ export default function About() {
       <div className="flex flex-col gap-6 sm:mx-0 mx-6 mb-4 text-lg">
 
         <div>
-          <p className="font-semibold">Magnus Grini</p>
-          <p>Trondheim / Bekkestua, Norway | +47 949 77 151 | mgrini2003@gmail.com | magnusgrini.com</p>
-        </div>
-
-        <div>
           <h3 className="text-2xl my-2">Profile</h3>
           <p>
             Master’s student in Artificial Intelligence at the Norwegian University of Science and Technology
