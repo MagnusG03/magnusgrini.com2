@@ -14,8 +14,8 @@ export default function About() {
             (NTNU) with a B.Sc. in Computer Science and strong interests in deep learning, evolutionary computation,
             optimization, and computational finance. My academic background includes both theoretical and applied AI,
             with experience in machine learning, probabilistic reasoning, bio-inspired methods, and visual computing.
-            My upcoming master’s thesis explores bio-inspired artificial intelligence for portfolio optimization in
-            finance. Having lived 13 years in Canada, the United States, and the United Arab Emirates, I have developed
+            My upcoming master’s thesis explores bio-inspired artificial intelligence for portfolio optimization under uncertainty.
+            Having lived 13 years in Canada, the United States, and the United Arab Emirates, I have developed
             strong cross-cultural communication skills and native fluency in English and Norwegian.
           </p>
         </div>

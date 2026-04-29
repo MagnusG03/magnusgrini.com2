@@ -9,8 +9,14 @@ import TradingAIImage from "@/assets/tradingai/LSTMandPPO.webp";
 import TrainingGameImage from "@/assets/traininggame/applegame.webp";
 import DinosaurGameImage from "@/assets/dinosaurgame/dinosaurgame.webp";
 import VehicleRoutingProblem from "@/assets/vehicleroutingproblem/nurse_route_network.webp";
+import PseudoBooleanOptimization from "@/assets/pseudobooleanoptimization/thumbnail.webp";
 
 const projects = [
+  {
+    title: "Pseudo-Boolean Optimization",
+    imageSrc: PseudoBooleanOptimization,
+    projectUrl: "/projects/pseudobooleanoptimization",
+  },
   {
     title: "Vehicle Routing Problem",
     imageSrc: VehicleRoutingProblem,
