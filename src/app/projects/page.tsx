@@ -5,10 +5,10 @@ import PathsImage from "@/assets/paths/paths.webp";
 import SparestiImage from "@/assets/sparesti/sparesti.webp";
 import WeightTrackerImage from "@/assets/weighttracker/weighttracker.webp";
 import MagnusGriniImage from "@/assets/magnusgrini.com/magnusgrini.webp";
-import TradingAIImage from "@/assets/tradingai/LSTMandPPO.webp";
+import TradingAIImage from "@/assets/tradingai/thumbnail.webp";
 import TrainingGameImage from "@/assets/traininggame/applegame.webp";
 import DinosaurGameImage from "@/assets/dinosaurgame/dinosaurgame.webp";
-import VehicleRoutingProblem from "@/assets/vehicleroutingproblem/nurse_route_network.webp";
+import VehicleRoutingProblem from "@/assets/vehicleroutingproblem/thumbnail.webp";
 import PseudoBooleanOptimization from "@/assets/pseudobooleanoptimization/thumbnail.webp";
 
 const projects = [
