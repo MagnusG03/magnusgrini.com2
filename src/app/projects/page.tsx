@@ -10,8 +10,14 @@ import TrainingGameImage from "@/assets/traininggame/applegame.webp";
 import DinosaurGameImage from "@/assets/dinosaurgame/dinosaurgame.webp";
 import VehicleRoutingProblem from "@/assets/vehicleroutingproblem/thumbnail.webp";
 import PseudoBooleanOptimization from "@/assets/pseudobooleanoptimization/thumbnail.webp";
+import TradingAlgorithmImage from "@/assets/tradingalgorithm/thumbnail.webp";
 
 const projects = [
+  {
+    title: "ML Equity Selection System",
+    imageSrc: TradingAlgorithmImage,
+    projectUrl: "/projects/tradingalgorithm",
+  },
   {
     title: "Pseudo-Boolean Optimization",
     imageSrc: PseudoBooleanOptimization,
@@ -33,7 +39,7 @@ const projects = [
     projectUrl: "/projects/traininggame",
   },
   {
-    title: "TradingAI",
+    title: "TradingAI (DEPRECATED)",
     imageSrc: TradingAIImage,
     projectUrl: "/projects/tradingai",
   },

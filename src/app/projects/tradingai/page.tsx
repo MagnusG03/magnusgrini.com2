@@ -13,18 +13,17 @@ import Link from "next/link";
 export default function TradingAI() {
   return (
     <div className="container min-h-[calc(100vh-80px)] mx-auto sm:py-12">
-      <h1 className="my-16 text-4xl font-bold text-center">Trading AI</h1>
+      <h1 className="my-16 text-4xl font-bold text-center">Trading AI &#40;DEPRECATED&#41;</h1>
       <div className="mx-6 sm:mx-0">
         <h3 className="text-lg">
-          This is an exploration in the efficacy of different machine learning models for trading on the stock market. In particular, I trained multiple types of models using data from Yahoo Finance on three different commodities, gold, crude oil, and natural gas. After exploring many different models and selecting the best one, I created a trading script that connects to the Oanda trading API and executes trades based on the predicted price of the commoditiy based on the past price history. If the predicted value of the commodity is lower than the current value, it sells some of its shares, and if the predicted value is higher than the current value, it buys some shares. {" "}
-          <Link
-            href="https://github.com/MagnusG03/TradingModels/tree/main"
-            target="_blank"
-            className="text-blue-500"
-          >
-            Here is a link to the GitHub repository
+          This was a course project from 2024 and is no longer maintained. For my current work in this area, see the{" "}
+          <Link href="/projects/tradingalgorithm" className="text-blue-500">
+            ML Equity Selection System
           </Link>
-          . Below is the performance of the trading algorithm using the LSTM model on the real stock market (using fake money).
+          , a separate independent project.
+        </h3>
+        <h3 className="text-lg mt-8">
+          This is an exploration in the efficacy of different machine learning models for trading on the stock market, explored for the &quot;IDATT2502 Applied Machine Learning with Project&quot; class at NTNU during fall 2024. In particular, I trained multiple types of models using data from Yahoo Finance on three different commodities, gold, crude oil, and natural gas. After exploring many different models and selecting the best one, I created a trading script that connects to the Oanda trading API and executes trades based on the predicted price of the commoditiy based on the past price history. If the predicted value of the commodity is lower than the current value, it sells some of its shares, and if the predicted value is higher than the current value, it buys some shares. Below is the performance of the trading algorithm using the LSTM model on the real stock market (using fake money).
         </h3>
         <div className="flex justify-center items-center mt-8">
           <Image
