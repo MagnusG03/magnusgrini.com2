@@ -33,7 +33,7 @@ export default function About() {
           <p>M.Sc. in Artificial Intelligence 2025–2027</p>
           <p>Norwegian University of Science and Technology (NTNU)</p>
           <p>Exchange semester at the University of California, Berkeley, fall 2026</p>
-          <p>Thesis: bio-inspired artificial intelligence for portfolio optimization under uncertainty</p>
+          <p>Prospective thesis: bio-inspired artificial intelligence for portfolio optimization under uncertainty</p>
           <p className="mt-2">B.Sc. in Computer Science 2022–2025</p>
           <p>Norwegian University of Science and Technology (NTNU)</p>
           <p>Thesis: real-time motion capture and calibration for adaptive Parkinson’s disease gameplay</p>
